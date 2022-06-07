@@ -14,9 +14,8 @@ int main(int argc, char* argv[])
 		"\\______ O           __/" << endl <<
 		" \\    \\         __/" << endl <<
 		"  \\____\\_______/" << endl <<
-		endl <<
-		endl <<
-		"Hello from Docker!" << endl;
+		endl << endl <<
+		"Hello from WSL!" << endl;
 	return 0;
 }
 
