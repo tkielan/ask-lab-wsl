@@ -286,7 +286,9 @@ WSL2 umożliwia naturalne używanie aplikacji GIU z Linux na systemie Windows.
         gitlab/gitlab-ee:latest
     ```
 
-    Wypakujmy przy użyciu *7-Zip* plik *D:\Docker\gitlab-ee.tar.7z* do *C:\Temp*
+    Alternatywnie wypakujmy obraz przy użyciu *7-Zip* z pliku *D:\Docker\gitlab-ee.tar.7z* do *C:\Temp*
+
+    Następnie zaimportujmy do Dockera:
 
     ```
     $ docker load -i /mnt/c/Temp/gitlab-ee.tar
@@ -298,7 +300,7 @@ WSL2 umożliwia naturalne używanie aplikacji GIU z Linux na systemie Windows.
    - W kontenerze *gitlab/gitlab-ee:latest*: Open with browser...
    - Poczekaj aż wystartuje usługa GitLab
    
-     ![GitLab](./res/gitlab.png)
+     [![GitLab](./res/gitlab.png)](http://localhost)
 
    - Otwórz terminal z kontenera: Open in terminal...
 
@@ -315,9 +317,11 @@ WSL2 umożliwia naturalne używanie aplikacji GIU z Linux na systemie Windows.
      - ASK Lab Assistant/assistant/assistant123/assistant@polsl.pl/Regular
      - ASK Lab Docent/docent/docent123/docent@polsl.pl/Administrator
    - Zaloguj sie na nowo stworzonego użytkownika *student* i ustaw nowe hasło: asklabstudent   
-   - Stwórz nowy projekt: my-awsome-project
+   - Stwórz nowy projekt: my-awsome-project poprzez [Import](http://localhost/projects/new#import_project).
+   - Jako **Git repository URL** wpisz link podany przez prowadzącego.
+   - Ustaw Visibility Level: Internal
    - Dodaj do projektu użytkowników *assistant* i *docent*
-     (Project information/Members)
+     w [Project information/Members](http://localhost/student/my-awsome-project/-/project_members)
 
 3. Wygeneruj parę kluczy SSH bez hasła
 
@@ -349,16 +353,16 @@ WSL2 umożliwia naturalne używanie aplikacji GIU z Linux na systemie Windows.
     ssh-ed25519 ...
     ```
 
-4. Wgraj klucz publiczny na server GitLab dla użytkownika student
+4. Wgraj klucz publiczny na server *GitLab* dla użytkownika *student*
 
-    - Skopiuj do schowka linijkę z kluczem (wynik działania poprzedniej komendy).
-    - W prawym górnym rogu na avatarze: Edit profile/SSH keys (http://localhost/-/profile/keys)
+    - Skopiuj do schowka linijkę z kluczem (wynik działania poprzedniego polecenia).
+    - W prawym górnym rogu na avatarze przejdz do: [Edit profile/SSH keys](http://localhost/-/profile/keys)
     - Wklej zawartość schowka do pola Key i dodaj klucz: Add key
-    - Dodany klucz SSH do profilu w GitLab
+    - Dodany klucz SSH do profilu w GitLab powinien wygladać następująco:
 
       ![SshKey](./res/ssh_key.png)
 
-    > W sprawozdaniu powinien się znaleźć klucz publiczny wygenerowany na potrzeby komunikacji z serwerem GitLab.
+    `W sprawozdaniu powinien znaleźć się klucz publiczny wygenerowany na potrzeby komunikacji z serwerem GitLab.`
 
 ### ___Zadanie 4___: Praca z Visual Studio Code (VSC) w WSL
 
