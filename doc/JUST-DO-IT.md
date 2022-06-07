@@ -429,6 +429,10 @@ $ git commit -m "Moje przykladowe zmiany w projekcie..."
 $ git push origin HEAD
 ```
 
+`Do sprawozdania dodajemy historie naszej wypchniętej gałęzi.`
+
+Przykład brancha [student/my_feature_branch](http://localhost/student/my-awsome-project/-/commits/student/my_feature_branch)
+
 ### ___Zadanie 6___: Instalacja własnego pakietu w WSL
 
 W dalszej części wygenerujemy pakiet instalacyjny DEB i zainstalujemy go w WSL.
@@ -452,6 +456,22 @@ student@DESKTOP-LFBS8PE:~/my-awsome-project$ sudo apt install ./build/Whale-0.0.
 ```
 
 `W sprawozdaniu zawieramy dowód na to że program Whale zainstalowany jest na ścieżce systemowej.`
+
+Następnie generujemy pakiet żródłowy:
+
+```
+student@DESKTOP-LFBS8PE:~/my-awsome-project$ cmake --build build --target package_source
+[0/1] Run CPack packaging tool for source...
+CPack: Create package using TXZ
+CPack: Install projects
+CPack: - Install directory: /home/student/my-awsome-project
+CPack: Create package
+CPack: - package: /home/student/my-awsome-project/build/Whale-0.0.1-Source.tar.xz generated.
+```
+
+Wrzucamy plik binarny do katalogu [___release___](http://localhost/student/my-awsome-project/-/tree/main/release) z poziomu interfejsu webowego.
+
+`Jako dowód wykonania zadania dołączamy zrzut ekranu z powyższego linku.`
 
 ### ___Zadanie 7___: Code Review na Merge Request
 
