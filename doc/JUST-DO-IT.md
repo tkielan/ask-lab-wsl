@@ -15,13 +15,13 @@ Laboratorium Administracji Systemów Komputerowych
     - [Dostęp do plików Linuxa z poziomu Windowsa](#dostęp-do-plików-linuxa-z-poziomu-windowsa)
     - [Wady i zalety](#wady-i-zalety-1)
     - [Windows 11](#windows-11)
-  - [Zadania do wykonania](#zadania-do-wykonania)
+  - [Ćwiczenia laboratoryjne](#ćwiczenia-laboratoryjne)
     - [___Zadanie 1___: Zainstaluj WSL na Windows 10](#zadanie-1-zainstaluj-wsl-na-windows-10)
     - [___Zadanie 2___: Zainstaluj *Docker Desktop* dla Windows](#zadanie-2-zainstaluj-docker-desktop-dla-windows)
     - [___Zadanie 3___: Sklonuj kontener z GitLab](#zadanie-3-sklonuj-kontener-z-gitlab)
     - [___Zadanie 4___: Praca z Visual Studio Code (VSC) w WSL](#zadanie-4-praca-z-visual-studio-code-vsc-w-wsl)
     - [___Zadanie 5___: Modyfikacja projektu](#zadanie-5-modyfikacja-projektu)
-    - [___Zadanie 6___: Instalacja pakietu](#zadanie-6-instalacja-pakietu)
+    - [___Zadanie 6___: Instalacja własnego pakietu w WSL](#zadanie-6-instalacja-własnego-pakietu-w-wsl)
     - [___Zadanie 7___: Code Review na Merge Request](#zadanie-7-code-review-na-merge-request)
     - [___Zadanie 8___: Integracja GitLab Workflow (opcjonalne)](#zadanie-8-integracja-gitlab-workflow-opcjonalne)
 
@@ -168,7 +168,7 @@ WSL2 umożliwia naturalne używanie aplikacji GIU z Linux na systemie Windows.
 
 ---
 
-## Zadania do wykonania
+## Ćwiczenia laboratoryjne
 
 ### ___Zadanie 1___: Zainstaluj WSL na Windows 10
 
@@ -204,7 +204,7 @@ WSL2 umożliwia naturalne używanie aplikacji GIU z Linux na systemie Windows.
     For information on key differences with WSL 2 please visit https://aka.ms/wsl2
     Conversion complete.
     ```
-1. Potwierdź wykonanie zadania poprzez załączenie w sprawozdaniu wyniku działania polecenia:
+    `Potwierdź wykonanie zadania poprzez załączenie w sprawozdaniu wyniku działania polecenia:`
 
     ```
     PS> wsl --list --verbose
@@ -221,24 +221,23 @@ WSL2 umożliwia naturalne używanie aplikacji GIU z Linux na systemie Windows.
 1. Zrestartuj PC
 1. Uruchom *Docker Desktop*
 1. Skonfiguruj tak by używał backendu WSL2
-    ```
-    Settings/General:
+    
+   > __Settings/General__:
+   >
+   > - [X] Use the WSL 2 based engine
+   >
+   > WSL 2 provides better performance than the legacy Hyper-V backend. Learn more.
 
-    [X] Use the WSL 2 based engine
+   > __Resources/WSL integration__:
+   >
+   > Configure which WSL 2 distros you want to access Docker from.
+   >
+   > - [X] Enable integration with my default WSL distro
+   >
+   > Enable integration with additional distros:
+   > - [X] Ubuntu-22.04
 
-    WSL 2 provides better performance than the legacy Hyper-V backend. Learn more.
-    ```
-    ```
-    Resources/WSL integration:
-
-    Configure which WSL 2 distros you want to access Docker from.
-
-    [X] Enable integration with my default WSL distro
-
-    Enable integration with additional distros:
-    [X] Ubuntu
-    ```
-1. Udokumentuj wykonanie zadania
+`Udokumentuj wykonanie zadania!`
 
    ```
    $ docker version
@@ -286,9 +285,9 @@ WSL2 umożliwia naturalne używanie aplikacji GIU z Linux na systemie Windows.
         gitlab/gitlab-ee:latest
     ```
 
-    Alternatywnie wypakujmy obraz przy użyciu *7-Zip* z pliku *D:\Docker\gitlab-ee.tar.7z* do *C:\Temp*
+    Alternatywnie wypakujmy obraz przy użyciu *7-Zip* z pliku *D:\Docker\gitlab-ee.tar.7z* na PenDrive ASK-LAB do *C:\Temp*
 
-    Następnie zaimportujmy do Dockera:
+    Następnie zaimportujmy wypakowany obraz do Dockera:
 
     ```
     $ docker load -i /mnt/c/Temp/gitlab-ee.tar
@@ -312,14 +311,15 @@ WSL2 umożliwia naturalne używanie aplikacji GIU z Linux na systemie Windows.
    - Skopiuj hasło do schowka
    - Zaloguj się do GitLab na użytkownika *root* przy użyciu tego hasła (zapamiętaj je w przeglądarce)
    - Zamknij terminal z wnętrza kontenera gitlab
-   - W panelu administracyjnym GitLab Admin stwórz 3 użytkowników:
+   - W panelu administracyjnym [GitLab Admin](http://localhost/admin/users) stwórz 3 użytkowników:
      - ASK Lab Student/student/student123/student@polsl.pl/Regular
      - ASK Lab Assistant/assistant/assistant123/assistant@polsl.pl/Regular
      - ASK Lab Docent/docent/docent123/docent@polsl.pl/Administrator
-   - Zaloguj sie na nowo stworzonego użytkownika *student* i ustaw nowe hasło: asklabstudent   
+   - Zaloguj sie na nowo stworzonego użytkownika *student* i ustaw nowe hasło: *asklabstudent*
+   - Zapamiętaj hasło w przeglądarce.
    - Stwórz nowy projekt: my-awsome-project poprzez [Import](http://localhost/projects/new#import_project).
-   - Jako **Git repository URL** wpisz link podany przez prowadzącego.
-   - Ustaw Visibility Level: Internal
+   - Jako **Git repository URL** wpisz link podany przez prowadzącego.  
+   - Ustaw *Visibility Level: Internal*
    - Dodaj do projektu użytkowników *assistant* i *docent*
      w [Project information/Members](http://localhost/student/my-awsome-project/-/project_members)
 
@@ -353,16 +353,19 @@ WSL2 umożliwia naturalne używanie aplikacji GIU z Linux na systemie Windows.
     ssh-ed25519 ...
     ```
 
+    Skopiuj do schowka linijkę z kluczem (przyda się w dalszej części). 
+
 4. Wgraj klucz publiczny na server *GitLab* dla użytkownika *student*
 
-    - Skopiuj do schowka linijkę z kluczem (wynik działania poprzedniego polecenia).
     - W prawym górnym rogu na avatarze przejdz do: [Edit profile/SSH keys](http://localhost/-/profile/keys)
-    - Wklej zawartość schowka do pola Key i dodaj klucz: Add key
-    - Dodany klucz SSH do profilu w GitLab powinien wygladać następująco:
+    - Wklej zawartość schowka do pola *Key* i dodaj klucz: *Add key*
+    - Dodany klucz SSH do profilu w GitLab powinien wygladać podobnie do:
 
       ![SshKey](./res/ssh_key.png)
 
-    `W sprawozdaniu powinien znaleźć się klucz publiczny wygenerowany na potrzeby komunikacji z serwerem GitLab.`
+    Zapisz wrzut ekranu z [zaimportowanego projektu](http://localhost/student/my-awsome-project).
+
+    `W sprawozdaniu powinien znaleźć się klucz publiczny wygenerowany na potrzeby komunikacji z serwerem GitLab oraz zrzut ekranu z projektu my-awsome-project.`
 
 ### ___Zadanie 4___: Praca z Visual Studio Code (VSC) w WSL
 
@@ -426,9 +429,9 @@ $ git commit -m "Moje przykladowe zmiany w projekcie..."
 $ git push origin HEAD
 ```
 
-### ___Zadanie 6___: Instalacja pakietu
+### ___Zadanie 6___: Instalacja własnego pakietu w WSL
 
-W dalszej części wygenerujemy pakiet instalacyjny DEB i zainstlujemy go w WSL.
+W dalszej części wygenerujemy pakiet instalacyjny DEB i zainstalujemy go w WSL.
 
 W terminalu wydajemy polecenie:
 
@@ -452,7 +455,7 @@ student@DESKTOP-LFBS8PE:~/my-awsome-project$ sudo apt install ./build/Whale-0.0.
 
 ### ___Zadanie 7___: Code Review na Merge Request
 
-Po wykonianiu poprzedniego zadania domyślnie zainstalowane hooki w GitLab powinny wyświetlić nam link do stworzenia nowego MR.
+Po wykonaniu __Zadania 5__ domyślnie zainstalowane hooki w GitLab powinny wyświetlić nam link do stworzenia nowego MR.
 
 ```
 ...
@@ -477,10 +480,8 @@ Klikając w przycisk "Create merge request" osiągniemy podobny rezultat do otwa
 
 ![Draft Merge Request](./res/draft_mr.png)
 
-Żeby MR był gotowy do review, uzupełniamy wszystkie wymagane pola i usuwamy na końcu stan *Draft*. To daje sygnał osobom odpowiedzialnym za review, że to właśnie odpowiedni moment, żeby się zaangażować.
-
-Ostatnim elementem tego zadania jest dodanie odpowiednich osób do Code Review na MR.
-Ustawmy osobę *assistant* jako Reviewer i poprośmy kolegę/koleżankę z sekcji, żeby zalogował się na to konto w GitLab i przeprowadził Code Review.
+Żeby MR był gotowy do review, uzupełniamy wszystkie wymagane pola i dodajemy odpowiednie osoby do Code Review na MR.
+Ustawiamy osobę *assistant* jako Reviewer i prosimy kolegę/koleżankę z sekcji, żeby zalogował się na to konto w GitLab i przeprowadził Code Review.
 
 W tym celu sprawdzamy nasz adres IP w Windows Terminal:
 
@@ -489,6 +490,8 @@ PS> ipconfig
 ```
 
 i zapamiętujemy w schowku.
+
+Na końcu usuwamy stan *Draft*. To daje sygnał osobom odpowiedzialnym za review, że to właśnie odpowiedni moment, żeby się zaangażować.
 
 Podajemy koledze/koleżance z sekcji link w formie:
 
@@ -508,16 +511,15 @@ Każdy komentarz umieszczony pod zmianą powinien zostać zaadresowany i rozwią
 
 ### ___Zadanie 8___: Integracja GitLab Workflow (opcjonalne)
 
-Wejdzmy na http://localhost/-/profile/personal_access_tokens i stwórzmy nowy token o nazwie *vscode*.
+Stwórzmy [nowy token](http://localhost/-/profile/personal_access_tokens) o nazwie *vscode*.
 
-Wybierzmy *api* z dostępnych opcji.
+Wybierzmy *api* spośród dostępnych opcji.
 
 > **Select scopes**
->
-> Scopes set the permission levels granted to the token. Learn more.
->
-> [X] api
->
+> 
+> Scopes set the permission levels granted to the token.
+> - [X] api
+> 
 > Grants complete read/write access to the API, including all groups and projects, the container registry, and the package registry.
 
 Następnie generujemy sam token.
@@ -557,3 +559,5 @@ Aby stworzyć MR z palety komend wybieramy:
 > GitLab: Create new merge request on current project
 
 To otworzy okno przyglądarki z nowym MR, podobnie w poprzednim zadaniu.
+
+`Wykonanie zadania kończy się dodaniem do sprawozdania dowodu na poprawną integrację VSC z serwerem GitLab.`
