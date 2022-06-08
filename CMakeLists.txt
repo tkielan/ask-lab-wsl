@@ -14,6 +14,15 @@ target_sources(Whale
         src/whale.cpp
 )
 
+# Build documentation in PDF
+# See https://github.com/Wandmalfarbe/pandoc-latex-template/
+# for eisvogel LATEX template
+add_custom_target(doc
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/doc
+    COMMAND pandoc JUST-DO-IT.md -o ${CMAKE_CURRENT_BINARY_DIR}/JUST-DO-IT.pdf --from markdown --template eisvogel --listings
+    BYPRODUCTS ${CMAKE_CURRENT_BINARY_DIR}/JUST-DO-IT.pdf
+)
+
 # Install part
 
 install(TARGETS Whale
@@ -24,7 +33,7 @@ install(DIRECTORY doc/
     DESTINATION share/whale
 )
 
-install(FILES README.md
+install(FILES README.md ${CMAKE_CURRENT_BINARY_DIR}/JUST-DO-IT.pdf
     DESTINATION share/whale
 )
 

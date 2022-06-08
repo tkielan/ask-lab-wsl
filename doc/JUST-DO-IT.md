@@ -1,3 +1,53 @@
+---
+title: "ASK@Rockwell: Security"
+author: [Rockwell Automation]
+lang: "pl"
+colorlinks: true
+header-includes:
+- |
+  ```{=latex}
+  \usepackage{tcolorbox}
+  \usepackage[utf8]{inputenc}
+  \usepackage{listings}
+  \usepackage{listingsutf8}
+  \lstset{
+  basicstyle=\small\ttfamily,
+  columns=flexible,
+  breaklines=true,
+  language=tex,
+  inputencoding=utf8,
+  extendedchars=true,
+  literate=%
+  {ą}{{\k{a}}}1
+  {ę}{{\k{e}}}1
+  {Ą}{{\k{A}}}1
+  {Ę}{{\k{E}}}1
+  {ś}{{\'{s}}}1
+  {Ś}{{\'{S}}}1
+  {ź}{{\'{z}}}1
+  {Ź}{{\'{Z}}}1
+  {ń}{{\'{n}}}1
+  {Ń}{{\'{N}}}1
+  {ć}{{\'{c}}}1
+  {Ć}{{\'{C}}}1
+  {ó}{{\'{o}}}1
+  {Ó}{{\'{O}}}1
+  {ż}{{\.{z}}}1
+  {Ż}{{\.{Z}}}1
+  {ł}{{\l{}}}1
+  {Ł}{{\l{}}}1
+  }
+  \newtcolorbox{info-box}{colback=cyan!5!white,arc=0pt,outer arc=0pt,colframe=cyan!60!black}
+  \newtcolorbox{warning-box}{colback=orange!5!white,arc=0pt,outer arc=0pt,colframe=orange!80!black}
+  \newtcolorbox{error-box}{colback=red!5!white,arc=0pt,outer arc=0pt,colframe=red!75!black}
+  ```
+pandoc-latex-environment:
+  tcolorbox: [box]
+  info-box: [info]
+  warning-box: [warning]
+  error-box: [error]
+---
+
 Laboratorium Administracji Systemów Komputerowych <!-- omit in toc -->
 =================================================
 
@@ -71,7 +121,7 @@ Dzięki dostępowi do plików w systemie Microsoftu jesteśmy w stanie również
 
 Dostęp do plików innych użytkowników:
 
-- Linux – Każdy użytkownik komputera posiada swoje własne odizolowane pliki Linuxowe znajdujące się w katalogu *AppData\Local\lxss* oznacza to, że inny użytkownik komputera po uruchomieniu wrappera *bash.exe* nie ma dostępu do plików pozostałych osób.
+- Linux – Każdy użytkownik komputera posiada swoje własne odizolowane pliki Linuxowe znajdujące się w katalogu *AppData\\Local\\lxss* oznacza to, że inny użytkownik komputera po uruchomieniu wrappera *bash.exe* nie ma dostępu do plików pozostałych osób.
 
 - Winodows – Jeśli z poziomu Windows nie mamy odpowiednich uprawnień na wykonanie określonej operacji to z poziomu *bash.exe* też jej nie wykonamy. Przykładowo, nie dostaniemy się do plików innego użytkownika przechowywanych w jego katalogu domowym, nawet jeśli po stronie Linuxa posiadamy uprawnienia root. Jednak gdy uruchomimy *bash.exe* jako administrator z poziomu systemu Windows, wtedy możemy tego dokonać.
 
@@ -179,7 +229,7 @@ WSL2 umożliwia naturalne używanie aplikacji GUI z Linux na systemie Windows.
    - *Ubuntu 22.04 LTS* (646.5MB).
       Awaryjnie, zainstaluj applikację Ubuntu z AppX (sciągnięta na PenDrive ASK-LAB z Microsoft Store)
 
-      > D:\Install\CanonicalGroupLimited.Ubuntu22.04LTS_2204.0.9.0_neutral___79rhkp1fndgsc.AppxBundle
+      > D:\\Install\\CanonicalGroupLimited.Ubuntu22.04LTS_2204.0.9.0_neutral___79rhkp1fndgsc.AppxBundle
 
 1. Podczas instalacji Ubuntu stwórz domyślnego użytkownika student/student
 1. Zaktualizuj jądro WSL2 do najnowszego
@@ -204,7 +254,7 @@ WSL2 umożliwia naturalne używanie aplikacji GUI z Linux na systemie Windows.
     For information on key differences with WSL 2 please visit https://aka.ms/wsl2
     Conversion complete.
     ```
-    `Potwierdź wykonanie zadania poprzez załączenie w sprawozdaniu wyniku działania polecenia:`
+    > Potwierdź wykonanie zadania poprzez załączenie w sprawozdaniu wyniku działania polecenia:
 
     ```
     PS> wsl --list --verbose
@@ -287,7 +337,7 @@ Celem zadania jest uruchomienie usługi GitLab działającej w kontenerze WSL. W
         gitlab/gitlab-ee:latest
     ```
 
-    Alternatywnie wypakujmy obraz przy użyciu *7-Zip* z pliku *D:\Docker\gitlab-ee.tar.7z* na PenDrive ASK-LAB do *C:\Temp*
+    Alternatywnie wypakujmy obraz przy użyciu *7-Zip* z pliku *D:\\Docker\\gitlab-ee.tar.7z* na PenDrive ASK-LAB do *C:\\Temp*
 
     Następnie zaimportujmy wypakowany obraz do Dockera:
 
@@ -367,7 +417,7 @@ Celem zadania jest uruchomienie usługi GitLab działającej w kontenerze WSL. W
 
     Zapisz wrzut ekranu z [zaimportowanego projektu](http://localhost/student/my-awsome-project).
 
-    `W sprawozdaniu powinien znaleźć się klucz publiczny wygenerowany na potrzeby komunikacji z serwerem GitLab oraz zrzut ekranu z projektu my-awsome-project.`
+    > W sprawozdaniu powinien znaleźć się klucz publiczny wygenerowany na potrzeby komunikacji z serwerem GitLab oraz zrzut ekranu z projektu my-awsome-project.
 
 ### ___Zadanie 4___: Praca z Visual Studio Code (VSC) w WSL
 
@@ -376,7 +426,7 @@ Celem zadania jest uruchomienie usługi GitLab działającej w kontenerze WSL. W
 1. Zainstaluj nowe rozszerzenie dla VSC (*Ctrl-Shift-X*)
    > Remote - WSL
 
-    `Poświęć chwilę, żeby zapoznać się z dokumentacją na stonie tego rozszerzenia.`
+   > Poświęć chwilę, żeby zapoznać się z dokumentacją na stonie tego rozszerzenia.
 
 1. Przeładuj *Visual Studio Code*, tak aby uruchomiło się wewnątrz WSL.
 
@@ -416,7 +466,7 @@ Celem zadania jest uruchomienie usługi GitLab działającej w kontenerze WSL. W
 
    ![ASK budowanie](./res/vsc_statusbar.png)
 
-`Do sprawozdania proszę dodać wynik działania aplikacji Whale.`
+> Do sprawozdania proszę dodać wynik działania aplikacji *Whale*.
 
 ### ___Zadanie 5___: Modyfikacja projektu
 
@@ -431,7 +481,7 @@ $ git commit -m "Moje przykladowe zmiany w projekcie..."
 $ git push origin HEAD
 ```
 
-`Do sprawozdania dodajemy historie naszej wypchniętej gałęzi.`
+> Do sprawozdania dodajemy historie naszej wypchniętej gałęzi.
 
 Przykład brancha [student/my_feature_branch](http://localhost/student/my-awsome-project/-/commits/student/my_feature_branch)
 
@@ -457,7 +507,7 @@ Następnie instalujemy pakiet:
 student@DESKTOP-LFBS8PE:~/my-awsome-project$ sudo apt install ./build/Whale-0.0.1-Linux.deb
 ```
 
-`W sprawozdaniu zawieramy dowód na to że program Whale zainstalowany jest na ścieżce systemowej.`
+> W sprawozdaniu zawieramy dowód na to że program Whale zainstalowany jest na ścieżce systemowej.
 
 Następnie generujemy pakiet żródłowy:
 
@@ -473,7 +523,7 @@ CPack: - package: /home/student/my-awsome-project/build/Whale-0.0.1-Source.tar.x
 
 Wrzucamy plik binarny do katalogu [___release___](http://localhost/student/my-awsome-project/-/tree/main/release) z poziomu interfejsu webowego.
 
-`Jako dowód wykonania zadania dołączamy zrzut ekranu z powyższego linku.`
+> Jako dowód wykonania zadania dołączamy zrzut ekranu z powyższego linku.
 
 ### ___Zadanie 7___: Code Review na Merge Request
 
@@ -527,7 +577,7 @@ W ćwiczeniu chodzi o dodanie paru komentarzy dotyczących treści samych zmian,
 
 Każdy komentarz umieszczony pod zmianą powinien zostać zaadresowany i rozwiązany zanim MR zostanie zatwierdzony i zmergowany z główną gałęzią *main*.
 
-`W sprawozdaniu proszę zawrzeć historię zmian takiego MR'a obrazującą przeprowadzone review kodu.`
+> W sprawozdaniu proszę zawrzeć historię zmian takiego MR'a obrazującą przeprowadzone review kodu.
 
 > Taka historia często wykorzystywana jest podczas audytu projektu (nawet przez firmy zewnętrzne, takie jak na przykład TÜV), w celu weryfikacji zgodności ze wdrożonym procesem wytwarzania oprogramowania.
 
@@ -582,4 +632,4 @@ Aby stworzyć MR z palety komend wybieramy:
 
 To otworzy okno przyglądarki z nowym MR, podobnie w poprzednim zadaniu.
 
-`Wykonanie zadania kończy się dodaniem do sprawozdania dowodu na poprawną integrację VSC z serwerem GitLab.`
+> Wykonanie zadania kończy się dodaniem do sprawozdania dowodu na poprawną integrację VSC z serwerem GitLab.
