@@ -132,6 +132,7 @@ Aby była możliwość korzystania z plików innego systemu zdecydowano się wyk
 Tutaj również wykorzystany został server 9P jendak w tym przypadku uruchomiony jest on po stronie Linuxa, a jego klientem jest Windows.
 Pozwala to na dostęp do plików Linuxa z poziomu Windowsa. Przykładowo możemy uruchomić
 > explorer.exe .
+
 po stronie Linuxa co spowoduje otwarcie menadżera plików w folderze, w którym aktualnie się znajdujemy.
 
 ![WSL2 Files in Explorer](./res/wsl2-explorer.png)
