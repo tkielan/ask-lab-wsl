@@ -1,8 +1,9 @@
 ---
-title: "ASK@Rockwell: Security"
+title: "ASK@Rockwell: Windows Subsystem for Linux"
 author: [Rockwell Automation]
 lang: "pl"
 colorlinks: true
+listings-disable-line-numbers: true
 header-includes:
 - |
   ```{=latex}
@@ -51,6 +52,13 @@ pandoc-latex-environment:
 Laboratorium Administracji Systemów Komputerowych <!-- omit in toc -->
 =================================================
 
+> Prowadzący:
+> 
+> - Tymoteusz Kielan tkielan@rockwellautomation.com <- tutaj wysyłamy sprawozdanie
+> - Adam Ples aples@ra.rockwell.com
+> - Bartosz Bątorek bbatore@ra.rockwell.com
+> - Karol Janik karol.janik@rockwellautomation.com
+
 ## Spis treści <!-- omit in toc -->
 
 - [Wprowadzenie do Windows Subsystem for Linux (WSL)](#wprowadzenie-do-windows-subsystem-for-linux-wsl)
@@ -80,6 +88,7 @@ W ramach tego laboratorium zapoznamy się z WSL w wersji 2. Jest on dostępny w 
 
 WSL daje nam możliwość uruchamiania natywnych aplikacji Linuxowych pod systemem Windows.
 Do tej pory osoby, które chciały korzystać zarówno z aplikacji Windows jak i tych ze świata Linux mogły korzystać z:
+
 - Dual boot (dwa systemy zainstalowane obok siebie, jeden albo drugi w danej chwili)
 - Linux na maszynie wirtualnej (wymagana wirtualizacja i spore zasoby sprzętowe)
 - Cygwin (warstwa emulacji POSIX dla Windows, przestarzała technologia z brakującą funkcjonalności i słabą wydajnością)
@@ -95,11 +104,11 @@ WSL1 powstały w kwietniu tego roku pozwala użytkownikom zainstalować bezpośr
 ![WSL Architecture](./res/wsl-le-architecture.jpg)
 
 - Linux userspace - Dystrybucja Linuxa dostarczona przez partnerów, instalowana z poziomu sklepu **Microsoft Store**
-- WSL - warstwa translacji zaimplementowana jako sterownik implementujący wywołania systemowe (ang. syscalls), system plików oraz wszystko czego dystrybucja potrzebuje do uruchomienia się.
+- WSL - warstwa translacji będąca sterownikiem implementującym wywołania systemowe (ang. *syscalls*), system plików oraz wszystko czego dystrybucja potrzebuje do uruchomienia się.
 - Windows NT Kernel - jądro systemu Windows NT, na którym zostają wywołane procesy przetłumaczone za pomocą warstwy WSL.
 
 Dzięki zastosowaniu powyższej architektury mamy możliwość uruchamiania **niezmodyfikowanych** programów Linuxowych **ELF64** na jądrze systemu Windows.
-Mówiąc prościej WSL tłumaczy syscalle Linuxowe na Windowsowe, po czym wykonuje je tak jak byśmy zlecili ich wykonanie pozpośrednio z poziomu systemu Microsoftu.
+Mówiąc prościej WSL tłumaczy syscalle Linuxowe na Windowsowe, po czym wykonuje je tak jak byśmy zlecili ich wykonanie bezpośrednio z poziomu systemu Microsoftu.
 
 ### Sterowanie
 
@@ -109,13 +118,13 @@ Punktem wejścia do podsystemu jest program *bash.exe* wykorzystuje on *LX Sessi
 
 Po podniesieniu Linuxa, *LX Session Manager* powołuje proces *init*, który uruchamia */bin/bash*. Teraz jesteśmy w stanie korzystać z Linuxowych narzędzi i aplikacji (bez GUI) a warstwa translacji zawarta w sterowniku *LXCore/LXSS* przetłumaczy wywołania systemowe Linuxa na wywołania systemowe w Windows NT. Aby było to możliwe po stronie Linuxa powstają specjalnie wyizolowane procesy nazywane “pico processes” podłączone w trybie jądra, do dedykowanych procedur obsługi wywołań systemowych zwanych “pico providers”.
 
-Jak można się domyśleć podejście wykorzystujące translację wywołań systemowych nie jest szalenie szybkie, szczególnie dla operacji wymagających I/O jak chociaż by *git clone* lub *npm install*. Dodatkowo istnieją **fundamentalne różnice** pomiędzy światem Windowsa a światem Linuxa dlatego niektóre translacje są bardzo wolne, a jeszcze inne wręcz niemożliwe ponieważ NT nie pozwala wykonać niektórych operacji, które można wykonać na Linuxie .Przykładem takiej operacji jest na przykład zmiana nazwy folderu, gdy znajdujący się wewnątrz plik jest otwarty przez inny program.
+Jak można się domyśleć podejście wykorzystujące translację wywołań systemowych nie jest szalenie szybkie, szczególnie dla operacji wymagających I/O jak chociaż by *git clone* lub *npm install*. Dodatkowo istnieją **fundamentalne różnice** pomiędzy światem Windowsa a światem Linuxa dlatego niektóre translacje są bardzo wolne, a jeszcze inne wręcz niemożliwe ponieważ NT nie pozwala wykonać niektórych operacji, które można wykonać na Linuxie. Przykładem takiej operacji jest zmiana nazwy folderu, gdy znajdujący się wewnątrz plik jest otwarty przez inny proces.
 
 ### Dostęp do plików
 
 ![WSL Files](./res/wsl-files.png)
 
-Linux wykorzystuje warstwę VFS (ang. *Virtual File System*) jako abstrakcje na różne systemy plików, takie jak Ext4, OFS itp. Warstwa ta ma za zadanie umożliwić korzystanie z niego w taki sam sposób niezależnie od tego, jaki system plików rzeczywiście leży pod spodem. Microsoft wykorzystał tą abstrakcję i wytworzył implementację dla Windows NT, która pozwala na dostęp z poziomu Linuxa do plików przechowywanych na dysku Windowsa. Pliki dostępne są w punktach montowania */mnt/c* , */mnt/d* i tak dalej.
+Linux wykorzystuje warstwę VFS (ang. *Virtual File System*) jako abstrakcje na różne systemy plików, takie jak Ext4, OFS itp. Warstwa ta ma za zadanie umożliwić korzystanie z niego w taki sam sposób niezależnie od tego, jaki system plików rzeczywiście leży pod spodem. Microsoft wykorzystał tę abstrakcję i wytworzył implementację dla Windows NT, która pozwala na dostęp z poziomu Linuxa do plików przechowywanych na dysku Windowsa. Pliki dostępne są w punktach montowania */mnt/c* , */mnt/d* i tak dalej.
 
 Dzięki dostępowi do plików w systemie Microsoftu jesteśmy w stanie również uruchamiać programy zainstalowane na Windowsie z poziomu bash np. polecenie notepad.exe “nazwa pliku” otworzy podany plik w programie *notepad*. Co więcej możemy na nich używać przekierowań i pipów.
 
@@ -123,16 +132,18 @@ Dostęp do plików innych użytkowników:
 
 - Linux – Każdy użytkownik komputera posiada swoje własne odizolowane pliki Linuxowe znajdujące się w katalogu *AppData\\Local\\lxss* oznacza to, że inny użytkownik komputera po uruchomieniu wrappera *bash.exe* nie ma dostępu do plików pozostałych osób.
 
-- Winodows – Jeśli z poziomu Windows nie mamy odpowiednich uprawnień na wykonanie określonej operacji to z poziomu *bash.exe* też jej nie wykonamy. Przykładowo, nie dostaniemy się do plików innego użytkownika przechowywanych w jego katalogu domowym, nawet jeśli po stronie Linuxa posiadamy uprawnienia root. Jednak gdy uruchomimy *bash.exe* jako administrator z poziomu systemu Windows, wtedy możemy tego dokonać.
+- Windows – Jeśli z poziomu Windows nie mamy odpowiednich uprawnień na wykonanie określonej operacji to z poziomu *bash.exe* też jej nie wykonamy. Przykładowo, nie dostaniemy się do plików innego użytkownika przechowywanych w jego katalogu domowym, nawet jeśli po stronie Linuxa posiadamy uprawnienia root. Jednak gdy uruchomimy *bash.exe* jako administrator z poziomu systemu Windows, wtedy możemy tego dokonać.
 
 ### Wady i zalety
 
 Wady:
+
 - Wolniejsze działanie operacji I/O w porównaniu do natywnego Linuxa.
 - Nie wszystkie *system-calls* są wspierane np. PTRACE_SEIZE używany przez rr (narzędzie do debugowania C/C++) nie jest wspierany.
 - Nowe funkcje jądra Linuxa nie działają z automatu, WSL team musi zaimplementować dla nich translację co powoduje dodatkową pracę i opóźnienia w dostarczaniu nowych rzeczy.
 
 Zalety:
+
 - Dostęp do ulubionych narzędzi Linuxa z poziomu Windowsa.
 - Swoboda wyboru, czy chcemy w danej chwili użyć Windowsa czy Linuxa.
 - Integracja z Windowsem, możliwość dostępu do plików przechowywanych w systemie Windows.
@@ -151,19 +162,19 @@ WSL2 postanawia zmierzyć się z problemami poprzednika, poprawić ogólną szyb
 
 ### Architektura
 
-W drugiej wersji WSL Microsoft całkowicie zmienił architekturę systemu. Aby zapewnić wzrost wydajności i kompatybilności w stosunku do wersji pierwszej. WSL team postanowił uruchomić kompletne jądro Linuxa wewnątrz systemu Windows. Do tego celu wykorzystali ich flagową technologie wirtualizacji Hyper-V. Jądro Linuxa zostało specjalnie przystosowane i zoptymalizowane pod wykorzystanie w Windows. Jako że zarządzane jest bezpośrednio przez Microsoft oznacza to, iż wszelkie aktualizacje np. bezpieczeństwa odbywają się bezpośrednio z poziomu usługi Windows Update Service.
+W drugiej wersji WSL Microsoft całkowicie zmienił architekturę systemu. Aby zapewnić wzrost wydajności i kompatybilności w stosunku do wersji pierwszej, WSL team postanowił uruchomić kompletne jądro Linuxa wewnątrz systemu Windows. Do tego celu wykorzystali ich flagową technologie wirtualizacji Hyper-V. Jądro Linuxa zostało specjalnie przystosowane i zoptymalizowane pod wykorzystanie w Windows. Jako że zarządzane jest bezpośrednio przez Microsoft oznacza to, iż wszelkie aktualizacje np. bezpieczeństwa odbywają się bezpośrednio z poziomu usługi Windows Update Service.
 
 ![WSL2 Architecture](./res/wsl2-arch.jpg)
 
-Zadajemy sobie pytanie, Linux na maszynie wirtualnej? Przecież to już było. Okazuje się, że nie jest to zwykła tradycyjna maszyna wirtualna, a specjalnie przygotowana maszyna na potrzeby WSL zintegrowana z Windowsem pozwalająca współdzielić te same zasoby bez dominacji jednego systemu nad drugim. **Lightweight utility VM** originalnie rozwijana była na potrzeby serwerowe i cechowała się małym narzutem wydajnościowym oraz pozwalała na uruchamianie wielu kontenerów na pojedynczym hoście. WS2 uruchamia się niezwykle szybko i cały system “wstaje” około 1 sekundy. Maszyna podnosi się sama wtedy kiedy tego potrzebujemy i zajmuje znacznie mniej pamięci niż tradycyjna.
+Zadajemy sobie pytanie, Linux na maszynie wirtualnej? Przecież to już było. Okazuje się, że nie jest to zwykła tradycyjna maszyna wirtualna, a specjalnie przygotowana maszyna na potrzeby WSL zintegrowana z Windowsem pozwalająca współdzielić te same zasoby bez dominacji jednego systemu nad drugim. **Lightweight utility VM** oryginalnie rozwijana była na potrzeby serwerowe i cechowała się małym narzutem wydajnościowym oraz pozwalała na uruchamianie wielu kontenerów na pojedynczym hoście. WSL2 uruchamia się niezwykle szybko (cały system “wstaje” około 1 sekundy). Maszyna podnosi się sama wtedy kiedy tego potrzebujemy i zajmuje znacznie mniej pamięci niż tradycyjna VMka.
 
-Według dokumentacji, jądra Linuxa i Windowsa uruchomione są za pomocą Hypervisor bezpośrednio obok siebie, co wskazuje na to iż jest to Hypervisor typu 1, czyli Linux działa bezpośrednio na poziomie sprzętu. Rozwiązanie to ma dużo mniejszy narzut na CPU w porównaniu do Hypervisorem typu 2 na przykład VirtualBox, który działa na poziomie systemu operacyjnego.
+Według dokumentacji, jądra Linuxa i Windowsa uruchomione są za pomocą zarządcy (ang. *Hypervisor*) bezpośrednio obok siebie, co wskazuje na to iż jest to zarządca typu 1, czyli Linux działa bezpośrednio na poziomie sprzętu. Rozwiązanie to ma dużo mniejszy narzut na CPU w porównaniu do zarządcy typu 2 na przykład VirtualBox, który działa na poziomie systemu operacyjnego.
 
 ![WSL2 Flow](./res/wsl2-flow.jpg)
 
-Wszystko zaczyna się od *wsl.exe*, który uruchamia podsystem, a także jest głównym punktem wejścia dla interakcji z nim. Uruchamia on też **Lxss Manager Service**, serwis ten śledzi aktualnie zainstalowane i uruchomione dystrybucje, dzięki czemu można np. zatrzymać lub listować zainstalowane Linuxy. Następnym krokiem jest wywołanie **Host Compute Service**, który uruchamia specjalnie przygotowaną Lightweight VM z jądrem Linuxa. Dane o aktualnie działającej dystrybucji mapowane są do LXSSMS i uruchamiany jest */bin/bash*. Po uruchomieniu następnie zestawione zostaje połączenie wykorzystujące socket czytający ze standardowego wejścia po stronie Windowsa i wysyłający te informacje do Linuxa. Po stronie dystrybucji Linuxa informacje te są odczytywane i traktowane jako standardowe wejście do powłoki *bash*,
+Wszystko zaczyna się od *wsl.exe*, który uruchamia podsystem, a także jest głównym punktem wejścia dla interakcji z nim. Uruchamia on również **Lxss Manager Service**, serwis ten śledzi aktualnie zainstalowane i uruchomione dystrybucje, dzięki czemu można np. zatrzymać lub listować zainstalowane Linuxy. Następnym krokiem jest wywołanie **Host Compute Service**, który uruchamia specjalnie przygotowaną Lightweight VM z jądrem Linuxa. Dane o aktualnie działającej dystrybucji mapowane są do LXSSMS i uruchamiany jest */bin/bash*. Po uruchomieniu następnie zestawione zostaje połączenie wykorzystujące socket czytający ze standardowego wejścia po stronie Windowsa i wysyłający te informacje do Linuxa. Po stronie dystrybucji Linuxa informacje te są odczytywane i traktowane jako standardowe wejście do powłoki *bash*,
 
-W tym momencie WSL jest gotowy do pracy, cała operacja na świeżo zainstalowanym systemie bez dodatków od użytkownika trwa krócej niż 1 sekundę.
+W tym momencie WSL jest gotowy do pracy, cała operacja na świeżo zainstalowanym systemie bez dodatków od użytkownika trwa krócej niż sekunda.
 
 ### Bezpośredni dostęp to plików Windows z poziomu Linuxa
 
@@ -180,6 +191,7 @@ Aby była możliwość korzystania z plików innego systemu zdecydowano się wyk
 
 Tutaj również wykorzystany został server 9P jendak w tym przypadku uruchomiony jest on po stronie Linuxa, a jego klientem jest Windows.
 Pozwala to na dostęp do plików Linuxa z poziomu Windowsa. Przykładowo możemy uruchomić
+
 > explorer.exe .
 
 po stronie Linuxa co spowoduje otwarcie menadżera plików w folderze, w którym aktualnie się znajdujemy.
@@ -189,9 +201,11 @@ po stronie Linuxa co spowoduje otwarcie menadżera plików w folderze, w którym
 ### Wady i zalety
 
 Wady:
+
 - Wydajność spada gdy wykorzystujemy pliki drugiego systemu (np. IDE uruchomione na Windowsie, a pliki projektu na Linuxie)
 
 Zalety:
+
 - Bardzo dobra wydajność w ramach jednego systemu plików
 - Kompletne jądro Linuxa
 - Kontenery Dockera działają bezpośrednio w WSL
@@ -223,16 +237,18 @@ WSL2 umożliwia naturalne używanie aplikacji GUI z Linux na systemie Windows.
 ### ___Zadanie 1___: Zainstaluj WSL2 na Windows 10
 
 1. Zainstaluj z **Microsoft Store** następujące aplikacje:
+
    - *Windows Terminal Preview*,
    - *7-Zip*,
    - *Visual Studio Code* (77.8MB),
    - *Ubuntu 22.04 LTS* (646.5MB).
-      Awaryjnie, zainstaluj applikację Ubuntu z AppX (sciągnięta na PenDrive ASK-LAB z Microsoft Store)
+      Awaryjnie, zainstaluj aplikację Ubuntu z AppX z PenDrive ASK-LAB (pobrana z Microsoft Store)
 
       > D:\\Install\\CanonicalGroupLimited.Ubuntu22.04LTS_2204.0.9.0_neutral___79rhkp1fndgsc.AppxBundle
 
 1. Podczas instalacji Ubuntu stwórz domyślnego użytkownika student/student
 1. Zaktualizuj jądro WSL2 do najnowszego
+
    ```
    PS> wsl --update
    Checking for updates...
@@ -244,16 +260,19 @@ WSL2 umożliwia naturalne używanie aplikacji GUI z Linux na systemie Windows.
 
 1. Ustaw dystrybucje **Ubuntu-22.04** jako domyślną
    W tym celu otwórz zakładkę PowerShell w Windows Terminal
+
     ```
     PS> wsl --set-default Ubuntu-22.04
     ```
 1. Zmigruj dystrybucję Ubuntu na wersję WSL2:
+
     ```
     PS> wsl --set-version Ubuntu-22.04 2
     Conversion in progress, this may take a few minutes...
     For information on key differences with WSL 2 please visit https://aka.ms/wsl2
     Conversion complete.
     ```
+
     > Potwierdź wykonanie zadania poprzez załączenie w sprawozdaniu wyniku działania polecenia:
 
     ```
@@ -263,10 +282,7 @@ WSL2 umożliwia naturalne używanie aplikacji GUI z Linux na systemie Windows.
 
 ### ___Zadanie 2___: Zainstaluj *Docker Desktop* dla Windows
 
-1. Pobierz instalator Docker Desktop (494MB) z poniższej lokalizacji (lub z PenDrive ASK-LAB):
-
-    https://docs.docker.com/desktop/windows/install/
-
+1. Pobierz [instalator Docker Desktop](https://docs.docker.com/desktop/windows/install/) (494MB) lub z PenDrive ASK-LAB
 1. Zainstaluj Docker Desktop Installer.exe
 1. Zrestartuj PC
 1. Uruchom *Docker Desktop*
@@ -298,6 +314,7 @@ WSL2 umożliwia naturalne używanie aplikacji GUI z Linux na systemie Windows.
 Celem zadania jest uruchomienie usługi GitLab działającej w kontenerze WSL. W tym celu musimy najpierw sklonować kontener z GitLab za korzystając z oficjalnego obrazu [GitLab'a](https://docs.gitlab.com/ee/install/docker.html).
 
 1. Otwórz zakładkę Ubuntu w Windows Terminal
+
     ```
     Welcome to Ubuntu 22.04 LTS (GNU/Linux 5.11.102.1-microsoft-standard-WSL2 x86_64)
 
@@ -326,6 +343,7 @@ Celem zadania jest uruchomienie usługi GitLab działającej w kontenerze WSL. W
     ```
 
 1. Pobierz kontener z GitLab (ponad 1GB)
+
     ```
     $ docker run --detach \
         --env GITLAB_HOME=/srv/gitlab \
@@ -345,9 +363,10 @@ Celem zadania jest uruchomienie usługi GitLab działającej w kontenerze WSL. W
     $ docker load -i /mnt/c/Temp/gitlab-ee.tar
     ```
 
-2. Skonfiguruj usługę GitLab
+1. Skonfiguruj usługę GitLab
 
    W aplikacji *Docker Desktop* wybierz zakładkę *Containers*:
+
    - W kontenerze *gitlab/gitlab-ee:latest*: Open with browser...
    - Poczekaj aż wystartuje usługa GitLab
    
@@ -361,21 +380,23 @@ Celem zadania jest uruchomienie usługi GitLab działającej w kontenerze WSL. W
      Password: your_very_long_secret_root_password_here
      ```
    - Skopiuj hasło do schowka
-   - Zaloguj się do GitLab na użytkownika *root* przy użyciu tego hasła (zapamiętaj je w przeglądarce)
-   - Zamknij terminal z wnętrza kontenera gitlab
+   - Zaloguj się do GitLab na użytkownika *root* przy użyciu tego hasła (zapamiętaj je w przeglądarce, może przydać się później)
+   - Zamknij terminal z wnętrza kontenera *gitlab*
    - W panelu administracyjnym [GitLab Admin](http://localhost/admin/users) stwórz 3 użytkowników:
      - ASK Lab Student/student/student123/student@polsl.pl/Regular
      - ASK Lab Assistant/assistant/assistant123/assistant@polsl.pl/Regular
-     - ASK Lab Docent/docent/docent123/docent@polsl.pl/Administrator
+     - ASK Lab Docent/docent/docent123/docent@polsl.pl/Administrator (opcjonalnie)
+
+     > ___Uwaga:___ Najpierw tworzymy użytkownika bez hasła, następnie edytujemy go ustawiając wstępne hasło (powyżej), a na koniec przy pierwszym logowaniu użytkownik musi ustawić nowe hasło!
    - Zaloguj sie na nowo stworzonego użytkownika *student* i ustaw nowe hasło: *asklabstudent*
-   - Zapamiętaj hasło w przeglądarce.
+   - Zapamiętaj hasło w przeglądarce (może być często używane).
    - Stwórz nowy projekt: my-awsome-project poprzez [Import](http://localhost/projects/new#import_project).
-   - Jako **Git repository URL** wpisz link podany przez prowadzącego.  
+   - Jako **Git repository URL** wpisz link podany przez prowadzącego.
    - Ustaw *Visibility Level: Internal*
-   - Dodaj do projektu użytkowników *assistant* i *docent*
+   - Dodaj do projektu użytkowników *assistant* i *docent* (opcjonalnie)
      w [Project information/Members](http://localhost/student/my-awsome-project/-/project_members)
 
-3. Wygeneruj parę kluczy SSH bez hasła
+1. Wygeneruj parę kluczy SSH bez hasła
 
     ```
     $ ssh-keygen -t ed25519
@@ -407,7 +428,7 @@ Celem zadania jest uruchomienie usługi GitLab działającej w kontenerze WSL. W
 
     Skopiuj do schowka linijkę z kluczem (przyda się w dalszej części). 
 
-4. Wgraj klucz publiczny na server *GitLab* dla użytkownika *student*
+1. Wgraj klucz publiczny na server *GitLab* dla użytkownika *student*
 
     - W prawym górnym rogu na avatarze przejdz do: [Edit profile/SSH keys](http://localhost/-/profile/keys)
     - Wklej zawartość schowka do pola *Key* i dodaj klucz: *Add key*
@@ -424,13 +445,15 @@ Celem zadania jest uruchomienie usługi GitLab działającej w kontenerze WSL. W
 1. Uruchom Visual Studio Code (menu Start) lub poleceniem *code* z Windows Terminal PowerShell.
 
 1. Zainstaluj nowe rozszerzenie dla VSC (*Ctrl-Shift-X*)
+
    > Remote - WSL
 
-   > Poświęć chwilę, żeby zapoznać się z dokumentacją na stonie tego rozszerzenia.
+   > Poświęć chwilę, żeby zapoznać się z dokumentacją na stronie tego rozszerzenia.
 
 1. Przeładuj *Visual Studio Code*, tak aby uruchomiło się wewnątrz WSL.
 
     - Uruchom paletę komend *Ctrl-Shift-P* i wpisz:
+
       > Remote-Wsl: New WSL Window
 
       Stworzy się nowa instancja VSC, a starą możemy zamknąć.
@@ -447,7 +470,8 @@ Celem zadania jest uruchomienie usługi GitLab działającej w kontenerze WSL. W
    ```
    Pozwoli nam to na dokonywanie zmian w kodzie posługując się tożsamością użytkownika *student*.
 
-1. Wewnątrz WSL zainstalujmy pozostałe niezbędne rozszerzenia
+1. Wewnątrz WSL zainstalujmy pozostałe niezbędne rozszerzenia:
+
    - C/C++
    - CMake Tools
 
@@ -509,7 +533,7 @@ student@DESKTOP-LFBS8PE:~/my-awsome-project$ sudo apt install ./build/Whale-0.0.
 
 > W sprawozdaniu zawieramy dowód na to że program Whale zainstalowany jest na ścieżce systemowej.
 
-Następnie generujemy pakiet żródłowy:
+Następnie tworzymy pakiet źródłowy:
 
 ```
 student@DESKTOP-LFBS8PE:~/my-awsome-project$ cmake --build build --target package_source
@@ -548,7 +572,7 @@ Klikając w przycisk "Create merge request" osiągniemy podobny rezultat do otwa
 
 ![Create Merge Request](./res/create_mr.png)
 
-> ***Uwaga***: Zawsze tworzymy nowe MRy w stanie *Draft*!
+> ___Uwaga:___ Zawsze tworzymy nowe MRy w stanie *Draft*!
 
 ![Draft Merge Request](./res/draft_mr.png)
 
@@ -590,6 +614,7 @@ Wybierzmy *api* spośród dostępnych opcji.
 > **Select scopes**
 > 
 > Scopes set the permission levels granted to the token.
+> 
 > - [X] api
 > 
 > Grants complete read/write access to the API, including all groups and projects, the container registry, and the package registry.
