@@ -156,7 +156,7 @@ Zalety:
 
 Windows 11 (od buildu 22000) zawiera ulepszoną obsługę WSL2 o możliwość uruchamiania aplikacji graficznych ze sprzętowym wspomaganiem OpenGL po zainstalowaniu odpowiednich sterowników vGPU dla WSL dostarczanych przez producentów układów graficznych takich jak Intel, AMD i NVidia.
 
-WSL2 umożliwia naturalne używanie aplikacji GIU z Linux na systemie Windows.
+WSL2 umożliwia naturalne używanie aplikacji GUI z Linux na systemie Windows.
 
 - Uruchom aplikacje Linuxowe bezpośrednio z menu Start
 - Przypnij aplikację Linuxową do paska zadań
