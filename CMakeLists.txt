@@ -21,11 +21,11 @@ install(TARGETS Whale
 )
 
 install(DIRECTORY doc/
-    DESTINATION DESTINATION share/whale
+    DESTINATION share/whale
 )
 
 install(FILES README.md
-    DESTINATION DESTINATION share/whale
+    DESTINATION share/whale
 )
 
 # Package part

@@ -15,9 +15,9 @@ Laboratorium Administracji Systemów Komputerowych <!-- omit in toc -->
   - [Wady i zalety](#wady-i-zalety-1)
   - [Windows 11](#windows-11)
 - [Ćwiczenia laboratoryjne](#ćwiczenia-laboratoryjne)
-  - [___Zadanie 1___: Zainstaluj WSL na Windows 10](#zadanie-1-zainstaluj-wsl-na-windows-10)
+  - [___Zadanie 1___: Zainstaluj WSL2 na Windows 10](#zadanie-1-zainstaluj-wsl2-na-windows-10)
   - [___Zadanie 2___: Zainstaluj *Docker Desktop* dla Windows](#zadanie-2-zainstaluj-docker-desktop-dla-windows)
-  - [___Zadanie 3___: Sklonuj kontener z GitLab](#zadanie-3-sklonuj-kontener-z-gitlab)
+  - [___Zadanie 3___: Uruchomienie usługi GitLab](#zadanie-3-uruchomienie-usługi-gitlab)
   - [___Zadanie 4___: Praca z Visual Studio Code (VSC) w WSL](#zadanie-4-praca-z-visual-studio-code-vsc-w-wsl)
   - [___Zadanie 5___: Modyfikacja projektu](#zadanie-5-modyfikacja-projektu)
   - [___Zadanie 6___: Instalacja własnego pakietu w WSL](#zadanie-6-instalacja-własnego-pakietu-w-wsl)
@@ -170,7 +170,7 @@ WSL2 umożliwia naturalne używanie aplikacji GUI z Linux na systemie Windows.
 
 ## Ćwiczenia laboratoryjne
 
-### ___Zadanie 1___: Zainstaluj WSL na Windows 10
+### ___Zadanie 1___: Zainstaluj WSL2 na Windows 10
 
 1. Zainstaluj z **Microsoft Store** następujące aplikacje:
    - *Windows Terminal Preview*,
@@ -243,7 +243,9 @@ WSL2 umożliwia naturalne używanie aplikacji GUI z Linux na systemie Windows.
    $ docker version
    ```
 
-### ___Zadanie 3___: Sklonuj kontener z GitLab
+### ___Zadanie 3___: Uruchomienie usługi GitLab
+
+Celem zadania jest uruchomienie usługi GitLab działającej w kontenerze WSL. W tym celu musimy najpierw sklonować kontener z GitLab za korzystając z oficjalnego obrazu [GitLab'a](https://docs.gitlab.com/ee/install/docker.html).
 
 1. Otwórz zakładkę Ubuntu w Windows Terminal
     ```
@@ -278,7 +280,7 @@ WSL2 umożliwia naturalne używanie aplikacji GUI z Linux na systemie Windows.
     $ docker run --detach \
         --env GITLAB_HOME=/srv/gitlab \
         --hostname localhost \
-        --publish 22:22 --publish 443:443 --publish 80:80 \
+        --publish 80:80 --publish 443:443 --publish 22:22 \
         --name gitlab \
         --restart always \
         --shm-size 256m \
