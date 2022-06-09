@@ -52,15 +52,18 @@ pandoc-latex-environment:
 Laboratorium Administracji Systemów Komputerowych <!-- omit in toc -->
 =================================================
 
-> Prowadzący:
-> 
-> - Tymoteusz Kielan tkielan@rockwellautomation.com <- tutaj wysyłamy sprawozdanie
-> - Adam Ples aples@ra.rockwell.com
-> - Bartosz Bątorek bbatore@ra.rockwell.com
-> - Karol Janik karol.janik@rockwellautomation.com
+::: info
+Prowadzący:
+
+- Tymoteusz Kielan <tkielan@rockwellautomation.com> <- tutaj wysyłamy sprawozdanie
+- Adam Ples <aples@ra.rockwell.com>
+- Bartosz Bątorek <bbatore@ra.rockwell.com>
+- Karol Janik <karol.janik@rockwellautomation.com>
+:::
 
 ## Spis treści <!-- omit in toc -->
 
+- [Cel laboratorium](#cel-laboratorium)
 - [Wprowadzenie do Windows Subsystem for Linux (WSL)](#wprowadzenie-do-windows-subsystem-for-linux-wsl)
   - [Architektura](#architektura)
   - [Sterowanie](#sterowanie)
@@ -81,6 +84,17 @@ Laboratorium Administracji Systemów Komputerowych <!-- omit in toc -->
   - [___Zadanie 6___: Instalacja własnego pakietu w WSL](#zadanie-6-instalacja-własnego-pakietu-w-wsl)
   - [___Zadanie 7___: Code Review na Merge Request](#zadanie-7-code-review-na-merge-request)
   - [___Zadanie 8___: Integracja GitLab Workflow (opcjonalne)](#zadanie-8-integracja-gitlab-workflow-opcjonalne)
+
+## Cel laboratorium
+
+Celem tego ćwiczenia jest zapoznanie się z systemem WSL, jego zaletami nad tradycyjnymi maszynami wirtualnymi z Linuxem oraz przeprowadzenie kolaboracji nad projektem z kodem źródłowym, co stanowi niemal codzienny element pracy programisty w korporacji.
+W ramach kolaboracji przeprowadzimy:
+
+- Zaciągnięcie kodu z repozytorium
+- Modyfikacja kodu
+- Budowanie i testowanie zmian
+- Review zmian w kodzie z kolegami/koleżankami
+- Merge Request na dołączenie naszych zmian do oficjalnej gałęzi dystrybucji kodu (tutaj *main*).
 
 ## Wprowadzenie do Windows Subsystem for Linux (WSL)
 
@@ -189,7 +203,7 @@ Aby była możliwość korzystania z plików innego systemu zdecydowano się wyk
 
 ![WSL2 Files from Windows](./res/wsl2-files-from-windows.jpg)
 
-Tutaj również wykorzystany został server 9P jendak w tym przypadku uruchomiony jest on po stronie Linuxa, a jego klientem jest Windows.
+Tutaj również wykorzystany został server 9P jednak w tym przypadku uruchomiony jest on po stronie Linuxa, a jego klientem jest Windows.
 Pozwala to na dostęp do plików Linuxa z poziomu Windowsa. Przykładowo możemy uruchomić
 
 > explorer.exe .
@@ -239,15 +253,20 @@ WSL2 umożliwia naturalne używanie aplikacji GUI z Linux na systemie Windows.
 1. Zainstaluj z **Microsoft Store** następujące aplikacje:
 
    - *Windows Terminal Preview*,
-   - *7-Zip*,
+   - *7-Zip* (unofficial),
    - *Visual Studio Code* (77.8MB),
    - *Ubuntu 22.04 LTS* (646.5MB).
-      Awaryjnie, zainstaluj aplikację Ubuntu z AppX z PenDrive ASK-LAB (pobrana z Microsoft Store)
+      
+     ::: warning
+     ___Uwaga___:
+     Jeśli instalacja Ubuntu 22.04 LTS z Microsoft Store nie zadziała, zainstaluj aplikację Ubuntu z PenDrive ASK-LAB (offline)
 
-      > D:\\Install\\CanonicalGroupLimited.Ubuntu22.04LTS_2204.0.9.0_neutral___79rhkp1fndgsc.AppxBundle
+     D:\\Install\\CanonicalGroupLimited.Ubuntu22.04LTS_2204.0.9.0.AppxBundle
+     :::
 
-1. Podczas instalacji Ubuntu stwórz domyślnego użytkownika student/student
-1. Zaktualizuj jądro WSL2 do najnowszego
+2. Uruchom program Ubuntu zainstalowany w systemie. Podczas pierwszego uruchomienia kreator spyta o domyślnego użytkownika i hasło. Podajemy wtedy: student/student
+3. Zaktualizuj jądro WSL2 do najnowszego
+   Otwieramy PowerShell z poziomu Administratora i wykonujemy:
 
    ```
    PS> wsl --update
@@ -258,34 +277,36 @@ WSL2 umożliwia naturalne używanie aplikacji GUI z Linux na systemie Windows.
 
    Jest to szczególnie ważne, gdyż jądro współdzielone jest przez wszystkie zainstalowane dystrybucje WSL. Najnowsze jądro gwarantuje również najlepszą stabilność, wydajność i najmniejszą liczbę błędów.
 
-1. Ustaw dystrybucje **Ubuntu-22.04** jako domyślną
-   W tym celu otwórz zakładkę PowerShell w Windows Terminal
+4. Ustaw dystrybucje **Ubuntu-22.04** jako domyślną
+   W tym celu otwórz zakładkę PowerShell w Windows Terminal (już nie jako Administrator)
 
-    ```
-    PS> wsl --set-default Ubuntu-22.04
-    ```
-1. Zmigruj dystrybucję Ubuntu na wersję WSL2:
+   ```
+   PS> wsl --set-default Ubuntu-22.04
+   ```
+5. Zmigruj dystrybucję Ubuntu z WSL1 (domyślnie) na wersję WSL2:
 
-    ```
-    PS> wsl --set-version Ubuntu-22.04 2
-    Conversion in progress, this may take a few minutes...
-    For information on key differences with WSL 2 please visit https://aka.ms/wsl2
-    Conversion complete.
-    ```
+   ```
+   PS> wsl --set-version Ubuntu-22.04 2
+   Conversion in progress, this may take a few minutes...
+   For information on key differences with WSL 2 please visit https://aka.ms/wsl2
+   Conversion complete.
+   ```
 
-    > Potwierdź wykonanie zadania poprzez załączenie w sprawozdaniu wyniku działania polecenia:
+   ::: box
+   Potwierdź wykonanie zadania poprzez załączenie w sprawozdaniu wyniku działania poniższego polecenia.
 
-    ```
-    PS> wsl --list --verbose
-    ```
-1. Zamknij zakładkę PowerShell
+   ```
+   PS> wsl --list --verbose
+   ```
+
+   :::
 
 ### ___Zadanie 2___: Zainstaluj *Docker Desktop* dla Windows
 
-1. Pobierz [instalator Docker Desktop](https://docs.docker.com/desktop/windows/install/) (494MB) lub z PenDrive ASK-LAB
-1. Zainstaluj Docker Desktop Installer.exe
-1. Zrestartuj PC
-1. Uruchom *Docker Desktop*
+1. Pobierz [instalator Docker Desktop](https://docs.docker.com/desktop/windows/install/) (494MB) z oficjalnej strony Dockera lub z PenDrive ASK-LAB
+1. Zainstaluj go z pliku *Docker Desktop Installer.exe*
+1. Zrestartuj PC jeśli to konieczne
+1. Uruchom *Docker Desktop* (może trochę potrwać)
 1. Skonfiguruj tak by używał backendu WSL2
     
    > __Settings/General__:
@@ -303,11 +324,13 @@ WSL2 umożliwia naturalne używanie aplikacji GUI z Linux na systemie Windows.
    > Enable integration with additional distros:
    > - [X] Ubuntu-22.04
 
-`Udokumentuj wykonanie zadania!`
-
    ```
    $ docker version
    ```
+
+   ::: box
+   Udokumentuj wykonanie zadania załączając wynik działania powyższego polecenia!
+   :::
 
 ### ___Zadanie 3___: Uruchomienie usługi GitLab
 
@@ -333,42 +356,49 @@ Celem zadania jest uruchomienie usługi GitLab działającej w kontenerze WSL. W
     0 updates can be applied immediately.
     $
     ```
+
 1. Zainstaluj niezbędne do dalszej części laboratorium narzędzia
 
     ```
     $ sudo apt update
     ```
+
     ```
     $ sudo apt install g++ cmake ninja-build
     ```
 
 1. Pobierz kontener z GitLab (ponad 1GB)
 
-    ```
-    $ docker run --detach \
-        --env GITLAB_HOME=/srv/gitlab \
-        --hostname localhost \
-        --publish 80:80 --publish 443:443 --publish 22:22 \
-        --name gitlab \
-        --restart always \
-        --shm-size 256m \
-        gitlab/gitlab-ee:latest
-    ```
+   ```
+   $ docker run --detach \
+       --env GITLAB_HOME=/srv/gitlab \
+       --hostname localhost \
+       --publish 80:80 --publish 443:443 --publish 22:22 \
+       --name gitlab \
+       --restart always \
+       --shm-size 256m \
+       gitlab/gitlab-ee:latest
+   ```
+   ::: error
+   ___Uwaga:___ Ten krok robimy tylko wtedy jeśli poprzednie polecenie trwa zbyt długo!
+   Alternatywnie wypakujmy obraz przy użyciu *7-Zip* z pliku *D:\\Docker\\gitlab-ee.tar.7z* na PenDrive ASK-LAB do *C:\\Temp*
 
-    Alternatywnie wypakujmy obraz przy użyciu *7-Zip* z pliku *D:\\Docker\\gitlab-ee.tar.7z* na PenDrive ASK-LAB do *C:\\Temp*
+   Następnie zaimportujmy wypakowany obraz do Dockera:
 
-    Następnie zaimportujmy wypakowany obraz do Dockera:
+   ```
+   $ docker load -i /mnt/c/Temp/gitlab-ee.tar
+   ```
 
-    ```
-    $ docker load -i /mnt/c/Temp/gitlab-ee.tar
-    ```
+   ::: 
 
-1. Skonfiguruj usługę GitLab
+2. Skonfiguruj usługę GitLab
 
    W aplikacji *Docker Desktop* wybierz zakładkę *Containers*:
 
    - W kontenerze *gitlab/gitlab-ee:latest*: Open with browser...
-   - Poczekaj aż wystartuje usługa GitLab
+   - Zmień port w pasku adresu na 80
+   - Poczekaj aż wystartuje usługa GitLab (może trwać parę minut)
+     W trakcie widoczny może być błąd 502...Ignorujemy i czekamy cierpliwie!
    
      [![GitLab](./res/gitlab.png)](http://localhost)
 
@@ -382,10 +412,12 @@ Celem zadania jest uruchomienie usługi GitLab działającej w kontenerze WSL. W
    - Skopiuj hasło do schowka
    - Zaloguj się do GitLab na użytkownika *root* przy użyciu tego hasła (zapamiętaj je w przeglądarce, może przydać się później)
    - Zamknij terminal z wnętrza kontenera *gitlab*
-   - W panelu administracyjnym [GitLab Admin](http://localhost/admin/users) stwórz 3 użytkowników:
-     - ASK Lab Student/student/student123/student@polsl.pl/Regular
-     - ASK Lab Assistant/assistant/assistant123/assistant@polsl.pl/Regular
-     - ASK Lab Docent/docent/docent123/docent@polsl.pl/Administrator (opcjonalnie)
+   - W panelu administracyjnym [GitLab Admin](http://localhost/admin/users) stwórz 3 użytkowników
+     | Opis | Login | Hasło | Email | Typ konta |
+     | ---- | ----- | ----- | ----- | --------- |
+     | ASK Lab Student | student | student123 | student@polsl.pl | Regular |
+     | ASK Lab Assistant | assistant | assistant123 | assistant@polsl.pl | Regular |
+     | ASK Lab Docent | docent | docent123 | docent@polsl.pl | Administrator (opcjonalnie) |
 
      > ___Uwaga:___ Najpierw tworzymy użytkownika bez hasła, następnie edytujemy go ustawiając wstępne hasło (powyżej), a na koniec przy pierwszym logowaniu użytkownik musi ustawić nowe hasło!
    - Zaloguj sie na nowo stworzonego użytkownika *student* i ustaw nowe hasło: *asklabstudent*
@@ -396,49 +428,53 @@ Celem zadania jest uruchomienie usługi GitLab działającej w kontenerze WSL. W
    - Dodaj do projektu użytkowników *assistant* i *docent* (opcjonalnie)
      w [Project information/Members](http://localhost/student/my-awsome-project/-/project_members)
 
-1. Wygeneruj parę kluczy SSH bez hasła
+3. Wygeneruj parę kluczy SSH bez hasła
 
-    ```
-    $ ssh-keygen -t ed25519
-    Generating public/private ed25519 key pair.
-    Enter file in which to save the key (/home/student/.ssh/id_ed25519):
-    Created directory '/home/student/.ssh'.
-    Enter passphrase (empty for no passphrase):
-    Enter same passphrase again:
-    Your identification has been saved in /home/student/.ssh/id_ed25519
-    Your public key has been saved in /home/student/.ssh/id_ed25519.pub
-    The key fingerprint is:
-    SHA256:536AVkrt2h93HzJNtbe47unaieudKkl8UXa2CjH01sk student@localhost
-    The key's randomart image is:
-    +--[ED25519 256]--+
-    |          ..     |
-    |           o.ooo.|
-    |         .  =ooEo|
-    |        . oo.  .o|
-    |       .S=. o .o.|
-    |        +=o. .+ o|
-    |       ..o+..+.+.|
-    |        .+. =oB.o|
-    |          +OO@  .|
-    +----[SHA256]-----+
+   ```
+   $ ssh-keygen -t ed25519
+   Generating public/private ed25519 key pair.
+   Enter file in which to save the key (/home/student/.ssh/id_ed25519):
+   Created directory '/home/student/.ssh'.
+   Enter passphrase (empty for no passphrase):
+   Enter same passphrase again:
+   Your identification has been saved in /home/student/.ssh/id_ed25519
+   Your public key has been saved in /home/student/.ssh/id_ed25519.pub
+   The key fingerprint is:
+   SHA256:536AVkrt2h93HzJNtbe47unaieudKkl8UXa2CjH01sk student@localhost
+   The key's randomart image is:
+   +--[ED25519 256]--+
+   |          ..     |
+   |           o.ooo.|
+   |         .  =ooEo|
+   |        . oo.  .o|
+   |       .S=. o .o.|
+   |        +=o. .+ o|
+   |       ..o+..+.+.|
+   |        .+. =oB.o|
+   |          +OO@  .|
+   +----[SHA256]-----+
 
-    $ cat ~/.ssh/id_ed25519.pub
-    ssh-ed25519 ...
-    ```
+   $ cat ~/.ssh/id_ed25519.pub
+   ssh-ed25519 ...
+   ```
 
-    Skopiuj do schowka linijkę z kluczem (przyda się w dalszej części). 
+   ::: box
+   Skopiuj do schowka linijkę z kluczem (przyda się w dalszej części).
+   :::
 
-1. Wgraj klucz publiczny na server *GitLab* dla użytkownika *student*
+4. Wgraj klucz publiczny na server *GitLab* dla użytkownika *student*
 
-    - W prawym górnym rogu na avatarze przejdz do: [Edit profile/SSH keys](http://localhost/-/profile/keys)
-    - Wklej zawartość schowka do pola *Key* i dodaj klucz: *Add key*
-    - Dodany klucz SSH do profilu w GitLab powinien wygladać podobnie do:
+   - W prawym górnym rogu na awatarze przejdź do: [Edit profile/SSH keys](http://localhost/-/profile/keys)
+   - Wklej zawartość schowka do pola *Key* i dodaj klucz: *Add key*
+   - Dodany klucz SSH do profilu w GitLab powinien wyglądać podobnie do:
 
-      ![SshKey](./res/ssh_key.png)
+     ![SshKey](./res/ssh_key.png)
 
-    Zapisz wrzut ekranu z [zaimportowanego projektu](http://localhost/student/my-awsome-project).
+   Zapisz wrzut ekranu z [zaimportowanego projektu](http://localhost/student/my-awsome-project).
 
-    > W sprawozdaniu powinien znaleźć się klucz publiczny wygenerowany na potrzeby komunikacji z serwerem GitLab oraz zrzut ekranu z projektu my-awsome-project.
+   ::: box
+   W sprawozdaniu powinien znaleźć się klucz publiczny wygenerowany na potrzeby komunikacji z serwerem GitLab oraz zrzut ekranu z projektu my-awsome-project.
+   :::
 
 ### ___Zadanie 4___: Praca z Visual Studio Code (VSC) w WSL
 
@@ -475,22 +511,33 @@ Celem zadania jest uruchomienie usługi GitLab działającej w kontenerze WSL. W
    - C/C++
    - CMake Tools
 
-1. Sklonujmy nasz projekt *my-awsome-project* z GitLab do wnętrza WSL
+1. Zanim sklonujemy nasze nowe repozytorium, żeby pracować na nim lokalnie, spróbujemy zalogować sie do niego przez SSH
+   
+   ```
+   ssh git@localhost
+   ```
+   Wpisujemy **yes** i potwierdzamy.
+
+   Połączenie natychmiast zostanie zerwane, gdyż użytkownik *git* nie posiada shella w kontenerze gitlab-ee, ale samo wykonanie polecenia jest konieczne do wykonania następnego kroku.
+
+2. Sklonujmy nasz projekt *my-awsome-project* z GitLab do wnętrza WSL
 
     > Git: Clone
 
     > git@localhost:student/my-awsome-project.git
 
-1. Visual Studio Code powinno zauważyć obecność pliku *CMakeLists.txt* w głównym katalogu repozytorium i zapytać, czy skonfigurować projekt.
+3. Visual Studio Code powinno zauważyć obecność pliku *CMakeLists.txt* w głównym katalogu repozytorium i zapytać, czy skonfigurować projekt.
    W takim przypadku, potwierdzamy (w prawym dolnym rogu, w wyskakującym oknie).
 
    Na tym etapie nasz projekt powinien się już budować i uruchamiać.
 
-1. Testujemy budowanie oraz uruchamianie projektu (przycisk Play na pasku statusowym)
+4. Testujemy budowanie oraz uruchamianie projektu (przycisk Play na pasku statusowym)
 
    ![ASK budowanie](./res/vsc_statusbar.png)
 
-> Do sprawozdania proszę dodać wynik działania aplikacji *Whale*.
+::: box
+Do sprawozdania proszę dodać wynik działania aplikacji *Whale* najlepiej po wykonaniu w nim modyfikacji z Zadania 5, lub bez w przypadku braku realizacji Zadania 5.
+:::
 
 ### ___Zadanie 5___: Modyfikacja projektu
 
@@ -504,8 +551,9 @@ $ git add -u
 $ git commit -m "Moje przykladowe zmiany w projekcie..."
 $ git push origin HEAD
 ```
-
-> Do sprawozdania dodajemy historie naszej wypchniętej gałęzi.
+::: box
+Do sprawozdania dodajemy historię naszej wypchniętej gałęzi.
+:::
 
 Przykład brancha [student/my_feature_branch](http://localhost/student/my-awsome-project/-/commits/student/my_feature_branch)
 
@@ -528,10 +576,11 @@ CPack: - package: /home/student/my-awsome-project/build/Whale-0.0.1-Linux.deb ge
 Następnie instalujemy pakiet:
 
 ```
-student@DESKTOP-LFBS8PE:~/my-awsome-project$ sudo apt install ./build/Whale-0.0.1-Linux.deb
+student@DESKTOP-LFBS8PE:~/my-awsome-project$ sudo apt install ./build/whale_0.0.1_amd64.deb
 ```
-
-> W sprawozdaniu zawieramy dowód na to że program Whale zainstalowany jest na ścieżce systemowej.
+::: box
+W sprawozdaniu zawieramy dowód na to że program Whale zainstalowany jest na ścieżce systemowej.
+:::
 
 Następnie tworzymy pakiet źródłowy:
 
@@ -547,7 +596,9 @@ CPack: - package: /home/student/my-awsome-project/build/Whale-0.0.1-Source.tar.x
 
 Wrzucamy plik binarny do katalogu [___release___](http://localhost/student/my-awsome-project/-/tree/main/release) z poziomu interfejsu webowego.
 
-> Jako dowód wykonania zadania dołączamy zrzut ekranu z powyższego linku.
+::: box
+Jako dowód wykonania zadania dołączamy zrzut ekranu z powyższego linku.
+:::
 
 ### ___Zadanie 7___: Code Review na Merge Request
 
@@ -601,7 +652,9 @@ W ćwiczeniu chodzi o dodanie paru komentarzy dotyczących treści samych zmian,
 
 Każdy komentarz umieszczony pod zmianą powinien zostać zaadresowany i rozwiązany zanim MR zostanie zatwierdzony i zmergowany z główną gałęzią *main*.
 
-> W sprawozdaniu proszę zawrzeć historię zmian takiego MR'a obrazującą przeprowadzone review kodu.
+::: box
+W sprawozdaniu proszę zawrzeć historię zmian takiego MR'a obrazującą przeprowadzone review kodu.
+:::
 
 > Taka historia często wykorzystywana jest podczas audytu projektu (nawet przez firmy zewnętrzne, takie jak na przykład TÜV), w celu weryfikacji zgodności ze wdrożonym procesem wytwarzania oprogramowania.
 
@@ -647,7 +700,7 @@ Teraz skonfigurujemy wtyczkę do współpracy z naszym GitLabem.
 >
 > Paste your GitLab Personal Access Token...
 
-W tym momencie powinnismy mieć Visual Studio Code sprzęgnięte z naszym osobistym serwerem GitLab!
+W tym momencie powinniśmy mieć Visual Studio Code sprzęgnięte z naszym osobistym serwerem GitLab!
 
 ![GitLab Workflow](./res/gitlab_workflow.png)
 
@@ -657,4 +710,6 @@ Aby stworzyć MR z palety komend wybieramy:
 
 To otworzy okno przyglądarki z nowym MR, podobnie w poprzednim zadaniu.
 
-> Wykonanie zadania kończy się dodaniem do sprawozdania dowodu na poprawną integrację VSC z serwerem GitLab.
+::: box
+Wykonanie zadania kończy się dodaniem do sprawozdania dowodu na poprawną integrację VSC z serwerem GitLab.
+:::

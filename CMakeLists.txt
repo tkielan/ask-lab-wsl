@@ -19,7 +19,7 @@ target_sources(Whale
 # for eisvogel LATEX template
 add_custom_target(doc
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/doc
-    COMMAND pandoc JUST-DO-IT.md -o ${CMAKE_CURRENT_BINARY_DIR}/JUST-DO-IT.pdf --from markdown --template eisvogel --listings
+    COMMAND pandoc JUST-DO-IT.md -s -V papersize:a4paper -o ${CMAKE_CURRENT_BINARY_DIR}/JUST-DO-IT.pdf --from markdown --template eisvogel --listings --filter pandoc-latex-environment
     BYPRODUCTS ${CMAKE_CURRENT_BINARY_DIR}/JUST-DO-IT.pdf
 )
 
