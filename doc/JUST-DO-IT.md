@@ -423,11 +423,14 @@ Celem zadania jest uruchomienie usługi GitLab działającej w kontenerze WSL. W
      > ___Uwaga:___ Najpierw tworzymy użytkownika bez hasła, następnie edytujemy go ustawiając wstępne hasło (powyżej), a na koniec przy pierwszym logowaniu użytkownik musi ustawić nowe hasło!
    - Zaloguj sie na nowo stworzonego użytkownika *student* i ustaw nowe hasło: *asklabstudent*
    - Zapamiętaj hasło w przeglądarce (może być często używane).
-   - Stwórz nowy projekt: my-awsome-project poprzez [Import](http://localhost/projects/new#import_project).
+   - Stwórz nowy projekt: My Awesome Project poprzez [Import](http://localhost/projects/new#import_project).
    - Jako **Git repository URL** wpisz link podany przez prowadzącego.
+
+     > https://github.com/tkielan/ask-lab-wsl.git
+
    - Ustaw *Visibility Level: Internal*
    - Dodaj do projektu użytkowników *assistant* i *docent*
-     w [Project information/Members](http://localhost/student/my-awsome-project/-/project_members)
+     w [Project information/Members](http://localhost/student/my-awesome-project/-/project_members)
 
 3. Wygeneruj parę kluczy SSH bez hasła
 
@@ -471,10 +474,10 @@ Celem zadania jest uruchomienie usługi GitLab działającej w kontenerze WSL. W
 
      ![SshKey](./res/ssh_key.png)
 
-   Zapisz wrzut ekranu z [zaimportowanego projektu](http://localhost/student/my-awsome-project).
+   Zapisz wrzut ekranu z [zaimportowanego projektu](http://localhost/student/my-awesome-project).
 
    ::: box
-   W sprawozdaniu powinien znaleźć się klucz publiczny wygenerowany na potrzeby komunikacji z serwerem GitLab oraz zrzut ekranu z projektu my-awsome-project.
+   W sprawozdaniu powinien znaleźć się klucz publiczny wygenerowany na potrzeby komunikacji z serwerem GitLab oraz zrzut ekranu z projektu my-awesome-project.
    :::
 
 ### ___Zadanie 4___: Praca z Visual Studio Code (VSC) w WSL
@@ -502,8 +505,8 @@ Celem zadania jest uruchomienie usługi GitLab działającej w kontenerze WSL. W
 1. Również przy użyciu Terminala konfigurujemy git'a
 
    ```
-   student@DESKTOP-LFBS8PE:~/my-awsome-project$ git config --global user.email "student@polsl.pl"
-   student@DESKTOP-LFBS8PE:~/my-awsome-project$ git config --global user.name "ASK Lab Student"
+   student@DESKTOP-LFBS8PE:~$ git config --global user.email "student@polsl.pl"
+   student@DESKTOP-LFBS8PE:~$ git config --global user.name "ASK Lab Student"
    ```
    Pozwoli nam to na dokonywanie zmian w kodzie posługując się tożsamością użytkownika *student*.
 
@@ -521,18 +524,21 @@ Celem zadania jest uruchomienie usługi GitLab działającej w kontenerze WSL. W
 
    Połączenie natychmiast zostanie zerwane, gdyż użytkownik *git* nie posiada shella w kontenerze gitlab-ee, ale samo wykonanie polecenia jest konieczne do wykonania następnego kroku.
 
-2. Sklonujmy nasz projekt *my-awsome-project* z GitLab do wnętrza WSL
+1. Sklonujmy nasz projekt *my-awesome-project* z GitLab do wnętrza WSL
 
     > Git: Clone
 
-    > git@localhost:student/my-awsome-project.git
+    > git@localhost:student/my-awesome-project.git
 
-3. Visual Studio Code powinno zauważyć obecność pliku *CMakeLists.txt* w głównym katalogu repozytorium i zapytać, czy skonfigurować projekt.
+1. Po udanym klonowaniu, VSC powinno chcieć przeładować nowo sklonowany projekt.
+   Powinniśmy mu na to pozwolić.
+
+1. Visual Studio Code powinno zauważyć obecność pliku *CMakeLists.txt* w głównym katalogu repozytorium i zapytać, czy skonfigurować projekt.
    W takim przypadku, potwierdzamy (w prawym dolnym rogu, w wyskakującym oknie).
 
    Na tym etapie nasz projekt powinien się już budować i uruchamiać.
 
-4. Testujemy budowanie oraz uruchamianie projektu (przycisk Play na pasku statusowym)
+1. Testujemy budowanie oraz uruchamianie projektu (przycisk Play na pasku statusowym)
 
    ![ASK budowanie](./res/vsc_statusbar.png)
 
@@ -556,7 +562,7 @@ $ git push origin HEAD
 Do sprawozdania dodajemy historię naszej wypchniętej gałęzi.
 :::
 
-Przykład brancha [student/my_feature_branch](http://localhost/student/my-awsome-project/-/commits/student/my_feature_branch)
+Przykład brancha [student/my_feature_branch](http://localhost/student/my-awesome-project/-/commits/student/my_feature_branch)
 
 ### ___Zadanie 6___: Instalacja własnego pakietu w WSL
 
@@ -565,19 +571,19 @@ W dalszej części wygenerujemy pakiet instalacyjny DEB i zainstalujemy go w WSL
 W terminalu wydajemy polecenie:
 
 ```
-student@DESKTOP-LFBS8PE:~/my-awsome-project$ cmake --build build --target package
+student@DESKTOP-LFBS8PE:~/my-awesome-project$ cmake --build build --target package
 [0/1] Run CPack packaging tool...
 CPack: Create package using DEB
 CPack: Install projects
 CPack: - Install project: Whale []
 CPack: Create package
-CPack: - package: /home/student/my-awsome-project/build/Whale-0.0.1-Linux.deb generated.
+CPack: - package: /home/student/my-awesome-project/build/Whale-0.0.1-Linux.deb generated.
 ```
 
 Następnie instalujemy pakiet:
 
 ```
-student@DESKTOP-LFBS8PE:~/my-awsome-project$ sudo apt install ./build/whale_0.0.1_amd64.deb
+student@DESKTOP-LFBS8PE:~/my-awesome-project$ sudo apt install ./build/whale_0.0.1_amd64.deb
 ```
 ::: box
 W sprawozdaniu zawieramy dowód na to że program Whale zainstalowany jest na ścieżce systemowej.
@@ -586,16 +592,16 @@ W sprawozdaniu zawieramy dowód na to że program Whale zainstalowany jest na ś
 Następnie tworzymy pakiet źródłowy:
 
 ```
-student@DESKTOP-LFBS8PE:~/my-awsome-project$ cmake --build build --target package_source
+student@DESKTOP-LFBS8PE:~/my-awesome-project$ cmake --build build --target package_source
 [0/1] Run CPack packaging tool for source...
 CPack: Create package using TXZ
 CPack: Install projects
-CPack: - Install directory: /home/student/my-awsome-project
+CPack: - Install directory: /home/student/my-awesome-project
 CPack: Create package
-CPack: - package: /home/student/my-awsome-project/build/Whale-0.0.1-Source.tar.xz generated.
+CPack: - package: /home/student/my-awesome-project/build/Whale-0.0.1-Source.tar.xz generated.
 ```
 
-Wrzucamy plik binarny do katalogu [___release___](http://localhost/student/my-awsome-project/-/tree/main/release) z poziomu interfejsu webowego.
+Wrzucamy plik binarny do katalogu [___release___](http://localhost/student/my-awesome-project/-/tree/main/release) z poziomu interfejsu webowego.
 
 ::: box
 Jako dowód wykonania zadania dołączamy zrzut ekranu z powyższego linku.
@@ -609,14 +615,14 @@ Po wykonaniu __Zadania 5__ domyślnie zainstalowane hooki w GitLab powinny wyśw
 ...
 remote:
 remote: To create a merge request for tkielan/doc_update, visit:
-remote:   http://localhost/student/my-awsome-project/-/merge_requests/new?merge_request%5Bsource_branch%5D=tkielan%2Fdoc_update
+remote:   http://localhost/student/my-awesome-project/-/merge_requests/new?merge_request%5Bsource_branch%5D=tkielan%2Fdoc_update
 remote:
-To localhost:student/my-awsome-project.git
+To localhost:student/my-awesome-project.git
 ```
 
 Możemy skorzystać z tego linka, który otworzy nam przeglądarkę z naszym GitLabem lub skorzystać z innej metody na stworzenie Merge Request.
 
-Jeśli otworzymy nasze repozytorium w [GitLab](http://localhost/student/my-awsome-project), tuż po wypchnięciu nowych zmian na zdalną gałąź, powinniśmy zauważyć podobną informację.
+Jeśli otworzymy nasze repozytorium w [GitLab](http://localhost/student/my-awesome-project), tuż po wypchnięciu nowych zmian na zdalną gałąź, powinniśmy zauważyć podobną informację.
 
 ![Merge Request](./res/mr.png)
 
