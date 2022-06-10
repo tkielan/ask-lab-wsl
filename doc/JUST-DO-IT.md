@@ -413,11 +413,12 @@ Celem zadania jest uruchomienie usługi GitLab działającej w kontenerze WSL. W
    - Zaloguj się do GitLab na użytkownika *root* przy użyciu tego hasła (zapamiętaj je w przeglądarce, może przydać się później)
    - Zamknij terminal z wnętrza kontenera *gitlab*
    - W panelu administracyjnym [GitLab Admin](http://localhost/admin/users) stwórz 3 użytkowników
-     | Opis | Login | Hasło | Email | Typ konta |
-     | ---- | ----- | ----- | ----- | --------- |
-     | ASK Lab Student | student | student123 | student@polsl.pl | Regular |
-     | ASK Lab Assistant | assistant | assistant123 | assistant@polsl.pl | Regular |
-     | ASK Lab Docent | docent | docent123 | docent@polsl.pl | Administrator (opcjonalnie) |
+
+   | Opis | Login | Hasło | Email | Typ konta |
+   | ---- | ----- | ----- | ----- | --------- |
+   | ASK Lab Student | student | student123 | student@polsl.pl | Regular |
+   | ASK Lab Assistant | assistant | assistant123 | assistant@polsl.pl | Regular |
+   | ASK Lab Docent | docent | docent123 | docent@polsl.pl | Administrator |
 
      > ___Uwaga:___ Najpierw tworzymy użytkownika bez hasła, następnie edytujemy go ustawiając wstępne hasło (powyżej), a na koniec przy pierwszym logowaniu użytkownik musi ustawić nowe hasło!
    - Zaloguj sie na nowo stworzonego użytkownika *student* i ustaw nowe hasło: *asklabstudent*
@@ -425,7 +426,7 @@ Celem zadania jest uruchomienie usługi GitLab działającej w kontenerze WSL. W
    - Stwórz nowy projekt: my-awsome-project poprzez [Import](http://localhost/projects/new#import_project).
    - Jako **Git repository URL** wpisz link podany przez prowadzącego.
    - Ustaw *Visibility Level: Internal*
-   - Dodaj do projektu użytkowników *assistant* i *docent* (opcjonalnie)
+   - Dodaj do projektu użytkowników *assistant* i *docent*
      w [Project information/Members](http://localhost/student/my-awsome-project/-/project_members)
 
 3. Wygeneruj parę kluczy SSH bez hasła
