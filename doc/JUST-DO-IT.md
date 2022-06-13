@@ -423,7 +423,7 @@ Celem zadania jest uruchomienie usługi GitLab działającej w kontenerze WSL. W
      > ___Uwaga:___ Najpierw tworzymy użytkownika bez hasła, następnie edytujemy go ustawiając wstępne hasło (powyżej), a na koniec przy pierwszym logowaniu użytkownik musi ustawić nowe hasło!
    - Zaloguj sie na nowo stworzonego użytkownika *student* i ustaw nowe hasło: *asklabstudent*
    - Zapamiętaj hasło w przeglądarce (może być często używane).
-   - Stwórz nowy projekt: My Awesome Project poprzez [Import](http://localhost/projects/new#import_project).
+   - Stwórz nowy projekt: **My Awesome Project** poprzez [Import](http://localhost/projects/new#import_project).
    - Jako **Git repository URL** wpisz link podany przez prowadzącego.
 
      > https://github.com/tkielan/ask-lab-wsl.git
@@ -432,7 +432,8 @@ Celem zadania jest uruchomienie usługi GitLab działającej w kontenerze WSL. W
    - Dodaj do projektu użytkowników *assistant* i *docent*
      w [Project information/Members](http://localhost/student/my-awesome-project/-/project_members)
 
-3. Wygeneruj parę kluczy SSH bez hasła
+3. Wygeneruj parę kluczy SSH bez hasła.
+   Wciśnij ENTER w miejscach, gdzie wystąpi zapytanie o hasło.
 
    ```
    $ ssh-keygen -t ed25519
@@ -457,13 +458,14 @@ Celem zadania jest uruchomienie usługi GitLab działającej w kontenerze WSL. W
    |        .+. =oB.o|
    |          +OO@  .|
    +----[SHA256]-----+
-
-   $ cat ~/.ssh/id_ed25519.pub
-   ssh-ed25519 ...
    ```
 
    ::: box
    Skopiuj do schowka linijkę z kluczem (przyda się w dalszej części).
+   ```
+   $ cat ~/.ssh/id_ed25519.pub
+   ssh-ed25519 ...
+   ```
    :::
 
 4. Wgraj klucz publiczny na server *GitLab* dla użytkownika *student*
