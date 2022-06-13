@@ -56,7 +56,7 @@ set(CPACK_SOURCE_IGNORE_FILES
 
 set(CPACK_GENERATOR DEB)
 set(CPACK_PACKAGE_VENDOR "Rockwell Automation, Inc.")
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Simple C++ application drawin whale to be built and run inside WSL"
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Simple C++ application drawing whale to be built and run inside WSL"
     CACHE STRING "Package description for the package metadata"
 )
 set(CPACK_COMPONENTS_ALL app doc-markdown)
