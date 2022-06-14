@@ -264,8 +264,24 @@ WSL2 umożliwia naturalne używanie aplikacji GUI z Linux na systemie Windows.
      D:\\Install\\CanonicalGroupLimited.Ubuntu22.04LTS_2204.0.9.0.AppxBundle
      :::
 
-2. Uruchom program Ubuntu zainstalowany w systemie. Podczas pierwszego uruchomienia kreator spyta o domyślnego użytkownika i hasło. Podajemy wtedy: student/student
-3. Zaktualizuj jądro WSL2 do najnowszego
+1. Odblokuj następujące komponenty systemu Windows (Run -> optionalfeatures):
+
+   - Windows Subsystem for Linux
+   - Virtual Machine Platform
+
+   Alternatywnie użyjemy PowerShella z poziomu Administratora i wykonamy:
+
+   - ```
+     PS> dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+     ```
+   - ```
+     PS> dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+     ```
+
+1. Uruchom program *Ubuntu 22.04 LTS* zainstalowany w systemie.
+   Możemy równie dobrze przy użyciu Windows Terminal otworzyć zakładkę "Ubuntu 22.04 LTS".
+   Podczas pierwszego uruchomienia kreator spyta o domyślnego użytkownika i hasło. Podajemy wtedy: student/student
+1. Zaktualizuj jądro WSL2 do najnowszego
    Otwieramy PowerShell z poziomu Administratora i wykonujemy:
 
    ```
@@ -275,15 +291,21 @@ WSL2 umożliwia naturalne używanie aplikacji GUI z Linux na systemie Windows.
    Kernel version: 5.10.102.1
    ```
 
+   ::: warning
+   ___Uwaga___:
+   Alternatywnie [ściągamy i instalujemy wsl_update_x64.msi](https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi).
+   Czasami instalacją MSI nie zadziała, wtedy trzeba zrestartować PC tak aby system uruchomił odblokowane komponenty i wtedy zreinstalować powyższy wsl_update_x64.
+   :::
+
    Jest to szczególnie ważne, gdyż jądro współdzielone jest przez wszystkie zainstalowane dystrybucje WSL. Najnowsze jądro gwarantuje również najlepszą stabilność, wydajność i najmniejszą liczbę błędów.
 
-4. Ustaw dystrybucje **Ubuntu-22.04** jako domyślną
+1. Ustaw dystrybucje **Ubuntu-22.04** jako domyślną
    W tym celu otwórz zakładkę PowerShell w Windows Terminal (już nie jako Administrator)
 
    ```
    PS> wsl --set-default Ubuntu-22.04
    ```
-5. Zmigruj dystrybucję Ubuntu z WSL1 (domyślnie) na wersję WSL2:
+1. Zmigruj dystrybucję Ubuntu z WSL1 (domyślnie) na wersję WSL2:
 
    ```
    PS> wsl --set-version Ubuntu-22.04 2
@@ -557,7 +579,7 @@ Ostatnią część przykładowo można wykonać z terminala poprzez:
 ```
 $ git checkout -b student/my_feature_branch
 $ git add -u
-$ git commit -m "Moje przykladowe zmiany w projekcie..."
+$ git commit -m "My example changes in the project"
 $ git push origin HEAD
 ```
 ::: box
